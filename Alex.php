@@ -14,6 +14,14 @@
 		$stack["A".$i] = 0;
 	}
 	$brackets = 0;
+	for($v=0; $v<count($source); ++$v) {
+		$ops = explode(" ",$source[$v]);
+		switch(strtolower(trim($ops[0]))){
+			case "label":
+				$l[trim($ops[1])] = $v;
+			break;
+		}
+	}
 	for($i=0; $i<count($source); ++$i) {
 		$ops = explode(" ",$source[$i]);
 		
@@ -36,13 +44,21 @@
 			case "gets":
 				$stack[trim($ops[1])] = ord((int) fgets(STDIN));
 			break;
+			case "goto":
+				$i = $l[trim($ops[1])];
+			break;
+			case "end":
+			    die();
+			break;
 			case "puts":
 				echo chr($stack[trim($ops[1])]);
 			break;
-			case "label":
-				$l[trim($ops[1])] = $i;
-			break;
 			case "ifzero":
+				if($stack[trim($ops[1])] == 0){
+					$i = $l[trim($ops[2])];
+				}
+			break;
+			case "ifnotzero":
 				if($stack[trim($ops[1])] != 0){
 					$i = $l[trim($ops[2])];
 				}
@@ -71,3 +87,4 @@
 			die("I don't understand you - Alex.\n");break;
 		}
 	}
+	
