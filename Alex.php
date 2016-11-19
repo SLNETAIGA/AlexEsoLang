@@ -83,6 +83,7 @@
 			break;
 			case "":break;
 			case " ":break;
+			case "label":break;
 			default:
 			die("I don't understand you - Alex.\n");break;
 		}
